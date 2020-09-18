@@ -1,6 +1,7 @@
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 from keras.layers import Embedding, Dense, SimpleRNN
+from keras.layers import LSTM
 from keras.models import Sequential
 import matplotlib as plt
 import numpy as np
@@ -42,6 +43,16 @@ print('input_train shape:', input_train.shape)
 print('input_test shape:', input_test.shape)
 # end of Listing 6.22 Preparing the IMDB data
 
+# Listing 6.27 Using the LSTM layer in Keras
+model = Sequential()
+model.add(Embedding(max_features, 32))
+model.add(LSTM(32))
+model.add(Dense(1, activation='sigmoid'))
+model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
+history = model.fit(input_train, y_train, epochs=10, batch_size=128, validation_split=0.2)
+#end of Listing 6.27 Using the LSTM layer in Keras
+
+'''
 # Listing 6.23 Training the model with Embedding and SimpleRNN layers
 model = Sequential()
 model.add(Embedding(max_features, 32))
@@ -50,7 +61,7 @@ model.add(Dense(1, activation='sigmoid'))
 model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
 history = model.fit(input_train, y_train, epochs=10, batch_size=128, validation_split=0.2)
 # end of Listing 6.23 Training the model with Embedding and SimpleRNN layers
-
+'''
 # Listing 6.24 Plotting results
 acc = history.history['acc']
 val_acc = history.history['val_acc']
@@ -70,3 +81,4 @@ plt.title('Training and validation loss')
 plt.legend()
 plt.show()
 # end of Listing 6.24 Plotting results
+# Book: 6.3 (page 207)
